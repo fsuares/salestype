@@ -2,6 +2,8 @@ import AppError from '@shared/errors/AppError';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 import { getCustomRepository } from 'typeorm';
 import { UserTokensRepository } from '../typeorm/repositories/UserTokensRepository';
+import EtherealMail from '@config/mail/EtherealMail';
+import path from 'path';
 
 interface IRequest {
     email: string;
@@ -18,6 +20,27 @@ class SendForgotPassEmailService {
         }
 
         const token = await userTokensRepository.generate(user.id);
+        const forgotPassTemplate = path.resolve(
+            __dirname,
+            '..',
+            'views',
+            'forgot_pass.hbs'
+        );
+
+        await EtherealMail.sendMail({
+            to: {
+                name: user.name,
+                email: user.email
+            },
+            subject: '[Salestype] - Password Recovery',
+            templateData: {
+                file: forgotPassTemplate,
+                variables: {
+                    name: user.name,
+                    link: `http://localhost:3000/reset_password?token=${token}`
+                }
+            }
+        });
     }
 }
 
