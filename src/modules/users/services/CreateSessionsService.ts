@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import User from '../typeorm/entities/User';
 import { sign } from 'jsonwebtoken';
+import authConfig from '@config/auth';
 
 interface IRequest {
     email: string;
@@ -33,10 +34,10 @@ class CreateSessionsService {
             {
                 id: user
             },
-            '752693afda35bf65d799b2361114d067',
+            authConfig.jwt.secret,
             {
                 subject: user.id,
-                expiresIn: '1d'
+                expiresIn: authConfig.jwt.expiresIn
             }
         );
 
