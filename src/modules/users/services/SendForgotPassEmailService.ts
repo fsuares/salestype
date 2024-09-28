@@ -4,8 +4,6 @@ import { getCustomRepository } from 'typeorm';
 import { UserTokensRepository } from '../typeorm/repositories/UserTokensRepository';
 import EtherealMail from '@config/mail/EtherealMail';
 import path from 'path';
-import { log } from 'console';
-import { template } from 'handlebars';
 
 interface IRequest {
     email: string;
