@@ -4,6 +4,8 @@ import { getCustomRepository } from 'typeorm';
 import { UserTokensRepository } from '../typeorm/repositories/UserTokensRepository';
 import EtherealMail from '@config/mail/EtherealMail';
 import path from 'path';
+import { log } from 'console';
+import { template } from 'handlebars';
 
 interface IRequest {
     email: string;
@@ -24,7 +26,7 @@ class SendForgotPassEmailService {
             __dirname,
             '..',
             'views',
-            'forgot_pass.hbs'
+            'forgot_password.hbs'
         );
 
         await EtherealMail.sendMail({
@@ -37,7 +39,7 @@ class SendForgotPassEmailService {
                 file: forgotPassTemplate,
                 variables: {
                     name: user.name,
-                    link: `http://localhost:3000/reset_password?token=${token}`
+                    link: `http://localhost:3000/reset_password?token=${token.token}`
                 }
             }
         });

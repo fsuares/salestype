@@ -1,4 +1,3 @@
-import { log } from 'console';
 import nodemailer from 'nodemailer';
 import HandlebarsMailTemplate from './HandlenarsMailTemplate';
 
@@ -54,11 +53,5 @@ export default class EtherealMail {
             subject,
             html: await mailTemplate.parse(templateData)
         });
-
-        log('Message sent: %s', message.messageId);
-        log(
-            'Preview URL: %s',
-            nodemailer.getTestMessageUrl(message as nodemailer.SentMessageInfo)
-        );
     }
 }
