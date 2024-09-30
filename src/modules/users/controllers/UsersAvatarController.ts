@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import UpdateUserAvatar from '../services/UpdateUserAvatarService';
+import UpdateUserAvatar from '@users/services/UpdateUserAvatarService';
 
 export default class UsersAvatarController {
-    public async update(req: Request, res: Response): Promise<Response> {
+    public async update(req: Request, res: Response): Promise<any> {
         const updateUserAvatar = new UpdateUserAvatar();
         const user = await updateUserAvatar.execute({
             user_id: req.user.id,

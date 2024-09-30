@@ -1,8 +1,8 @@
-import CreateSession from '../services/CreateSessionsService';
+import CreateSession from '@users/services/CreateSessionsService';
 import { Request, Response } from 'express';
 
 export default class SessionsController {
-    public async create(req: Request, res: Response): Promise<Response> {
+    public async create(req: Request, res: Response): Promise<any> {
         const { email, password } = req.body;
 
         const createSession = new CreateSession();

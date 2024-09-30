@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import CreateCustomerService from '../services/CreateCustomerService';
-import ListCustomerService from '../services/ListCustomerService';
-import ShowCustomerService from '../services/ShowCustomerService';
-import UpdateCustomerService from '../services/UpdateCustomerService';
-import DeleteCustomerService from '../services/DeleteCustomerService';
+import CreateCustomerService from '@customers/services/CreateCustomerService';
+import ListCustomerService from '@customers/services/ListCustomerService';
+import ShowCustomerService from '@customers/services/ShowCustomerService';
+import UpdateCustomerService from '@customers/services/UpdateCustomerService';
+import DeleteCustomerService from '@customers/services/DeleteCustomerService';
 
 export default class CustomersController {
-    public async index(req: Request, res: Response): Promise<Response | void> {
+    public async index(req: Request, res: Response): Promise<any> {
         const customers = await new ListCustomerService()
             .execute()
             .then((customers) => {
@@ -14,7 +14,7 @@ export default class CustomersController {
             });
     }
 
-    public async show(req: Request, res: Response): Promise<Response | void> {
+    public async show(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
         const customer = await new ShowCustomerService()
             .execute({ id })
@@ -23,7 +23,7 @@ export default class CustomersController {
             });
     }
 
-    public async create(req: Request, res: Response): Promise<Response | void> {
+    public async create(req: Request, res: Response): Promise<any> {
         const { name, email } = req.body;
         const customer = await new CreateCustomerService()
             .execute({ name, email })
@@ -32,7 +32,7 @@ export default class CustomersController {
             });
     }
 
-    public async update(req: Request, res: Response): Promise<Response | void> {
+    public async update(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
         const { name, email } = req.body;
         const customer = await new UpdateCustomerService()
@@ -42,7 +42,7 @@ export default class CustomersController {
             });
     }
 
-    public async delete(req: Request, res: Response): Promise<Response | void> {
+    public async delete(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
         const customer = await new DeleteCustomerService()
             .execute({ id })
