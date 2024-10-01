@@ -37,7 +37,8 @@
             "@shared/*": ["src/shared/*"],
             "@customers/*": ["src/modules/customers/*"],
             "@products/*": ["src/modules/products/*"],
-            "@users/*": ["src/modules/users/*"]
+            "@users/*": ["src/modules/users/*"],
+            "@orders/*": ["src/modules/orders/*"]
         },
         /* Specify a set of entries that re-map imports to additional lookup locations. */ // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
         "typeRoots": [
