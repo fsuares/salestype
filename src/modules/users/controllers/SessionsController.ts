@@ -1,3 +1,4 @@
+import { instanceToInstance } from 'class-transformer';
 import CreateSession from '@users/services/CreateSessionsService';
 import { Request, Response } from 'express';
 
@@ -12,6 +13,8 @@ export default class SessionsController {
             password
         });
 
-        return res.status(202).json({ user, token });
+        const user_no_pass = instanceToInstance(user);
+
+        return res.status(202).json({ user_no_pass, token });
     }
 }
