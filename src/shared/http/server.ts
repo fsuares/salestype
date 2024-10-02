@@ -1,16 +1,19 @@
 import 'reflect-metadata';
+import '@shared/database';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+import { errors } from 'celebrate';
+import { pagination } from 'typeorm-pagination';
 import cors from 'cors';
 import routes from '@shared/http/routes';
 import AppError from '@shared/errors/AppError';
-import '@shared/database';
-import { errors } from 'celebrate';
 import uploadConfig from '@config/upload';
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(pagination);
 app.use('/files', express.static(uploadConfig.directory));
 
 app.use(routes);
@@ -21,12 +24,12 @@ app.use(
         if (error instanceof AppError) {
             return res.status(error.statusCode).json({
                 status: 'error',
-                message: error.message,
+                message: error.message
             });
         } else {
             res.status(500).json({
                 status: 'error',
-                message: 'Internal server error',
+                message: 'Internal server error'
             });
         }
     }
