@@ -1,32 +1,18 @@
-import AppError from '@shared/errors/AppError';
-import { CustomersRepository } from '@customers/infra/typeorm/repositories/CustomersRepository';
-import { getCustomRepository } from 'typeorm';
-import Customer from '@customers/infra/typeorm/entities/Customer';
+import { inject, injectable } from 'tsyringe';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
+import { IPaginatedCustomer } from '@customers/domain/models/IPaginatedCustomer';
+import { ISearchParams } from '@customers/domain/models/ISearchParams';
 
-interface IPaginateCustomer {
-    from: number;
-    to: number;
-    per_page: number;
-    total: number;
-    current_page: number;
-    prev_page: number;
-    next_page: number | null;
-    last_page: number | null;
-    data: Customer[];
-}
-
+@injectable()
 class ListCustomerService {
-    public async execute(): Promise<IPaginateCustomer> {
-        const customersRepository = getCustomRepository(CustomersRepository);
+    constructor(
+        @inject('CustomersRepository')
+        private customersRepository: ICustomersRepository
+    ) {}
 
-        const customers = await customersRepository
-            .createQueryBuilder()
-            .paginate();
-        if (!customers) {
-            throw new AppError('No customers', 404);
-        }
-
-        return customers as IPaginateCustomer;
+    public async execute(): Promise<IPaginatedCustomer> {
+        const customers = await this.customersRepository.findAll();
+        return customers;
     }
 }
 

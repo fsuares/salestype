@@ -4,10 +4,13 @@ import ListCustomerService from '@customers/services/ListCustomerService';
 import ShowCustomerService from '@customers/services/ShowCustomerService';
 import UpdateCustomerService from '@customers/services/UpdateCustomerService';
 import DeleteCustomerService from '@customers/services/DeleteCustomerService';
+import { container } from 'tsyringe';
 
 export default class CustomersController {
     public async index(req: Request, res: Response): Promise<any> {
-        const customers = await new ListCustomerService()
+        const { page = '1', limit = '10' } = req.query;
+        const customers = await container
+            .resolve(ListCustomerService)
             .execute()
             .then((customers) => {
                 return res.status(200).json(customers);
@@ -16,7 +19,8 @@ export default class CustomersController {
 
     public async show(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
-        const customer = await new ShowCustomerService()
+        const customer = await container
+            .resolve(ShowCustomerService)
             .execute({ id })
             .then((customer) => {
                 return res.status(200).json(customer);
@@ -25,7 +29,8 @@ export default class CustomersController {
 
     public async create(req: Request, res: Response): Promise<any> {
         const { name, email } = req.body;
-        const customer = await new CreateCustomerService()
+        const customer = await container
+            .resolve(CreateCustomerService)
             .execute({ name, email })
             .then((customer) => {
                 return res.status(201).json(customer);
@@ -35,7 +40,8 @@ export default class CustomersController {
     public async update(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
         const { name, email } = req.body;
-        const customer = await new UpdateCustomerService()
+        const customer = await container
+            .resolve(UpdateCustomerService)
             .execute({ id, name, email })
             .then((customer) => {
                 return res.status(202).json(customer);
@@ -44,7 +50,8 @@ export default class CustomersController {
 
     public async delete(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
-        const customer = await new DeleteCustomerService()
+        const customer = await container
+            .resolve(DeleteCustomerService)
             .execute({ id })
             .then(() => {
                 return res.status(204).json();
