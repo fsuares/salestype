@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
-import { CustomersRepository } from '@customers/typeorm/repositories/CustomersRepository';
+import { CustomersRepository } from '@customers/infra/typeorm/repositories/CustomersRepository';
 import { getCustomRepository } from 'typeorm';
-import Customer from '@customers/typeorm/entities/Customer';
+import Customer from '@customers/infra/typeorm/entities/Customer';
 
 interface IPaginateCustomer {
     from: number;
